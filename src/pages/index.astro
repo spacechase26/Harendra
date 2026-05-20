@@ -1,0 +1,302 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import { profile } from '../content/profile';
+
+const statusLabel: Record<string, string> = {
+  done: 'Done',
+  current: 'Now',
+  next: 'Ahead',
+};
+---
+
+<Base>
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <div class="container">
+      <p class="hero__eyebrow eyebrow">{profile.location} · CA Aspirant</p>
+
+      <h1 class="hero__name font-display">
+        <span class="hero__mask"><span class="hero__inner">{profile.name}</span></span>
+      </h1>
+      <span class="hero__under" aria-hidden="true"></span>
+
+      <p class="hero__tagline measure">{profile.tagline}</p>
+
+      <p class="hero__now font-mono">
+        <span class="dot" aria-hidden="true"></span>{profile.now}
+      </p>
+    </div>
+  </header>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="about" class="section">
+    <div class="container">
+      <SectionTitle num="01" label="About" />
+      <p class="lead measure" data-reveal>{profile.intro}</p>
+    </div>
+  </section>
+
+  <!-- ============ FOCUS / THE LENS ============ -->
+  <section id="focus" class="section">
+    <div class="container">
+      <SectionTitle num="02" label="The Lens" />
+      <p class="focus__lead font-display" data-reveal>{profile.focusLead}</p>
+      <ul class="focus">
+        {profile.focus.map((f, i) => (
+          <li class="focus__row" data-reveal>
+            <span class="focus__idx font-mono">{String(i + 1).padStart(2, '0')}</span>
+            <span class="focus__label font-display">{f.label}</span>
+            <span class="focus__note">{f.note}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ JOURNEY ============ -->
+  <section id="journey" class="section">
+    <div class="container">
+      <SectionTitle num="03" label="The Journey" />
+      <ol class="journey">
+        {profile.journey.map((j) => (
+          <li class={`jrow jrow--${j.status}`} data-reveal>
+            <span class="jrow__when font-mono">{j.when}</span>
+            <span class="jrow__body">
+              <span class="jrow__title font-display">{j.title}</span>
+              <span class="jrow__detail">{j.detail}</span>
+            </span>
+            <span class={`jrow__status font-mono jrow__status--${j.status}`}>{statusLabel[j.status]}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section id="contact" class="section">
+    <div class="container">
+      <SectionTitle num="04" label="Get in touch" />
+      <div class="contact" data-reveal>
+        <a class="contact__email font-display" href={`mailto:${profile.email}`}>{profile.email}</a>
+        <ul class="contact__socials font-mono">
+          {profile.socials.map((s) => (
+            <li>
+              <a href={s.href} target="_blank" rel="noopener noreferrer">{s.label} <span aria-hidden="true">→</span></a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    padding-top: clamp(64px, 14vh, 160px);
+    padding-bottom: var(--section-y);
+    overflow: hidden;
+  }
+  /* faint ruled-paper backdrop, fading downward (the "ledger" tell) */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0 43px,
+      var(--rule) 43px 44px
+    );
+    opacity: 0.45;
+    -webkit-mask-image: linear-gradient(to bottom, #000 8%, transparent 78%);
+            mask-image: linear-gradient(to bottom, #000 8%, transparent 78%);
+  }
+  .hero .container { position: relative; z-index: 1; }
+  .hero__eyebrow { margin-bottom: var(--s-5); }
+  .hero__name {
+    font-size: var(--t-name);
+    line-height: 0.92;
+    letter-spacing: -0.01em;
+  }
+  .hero__mask { display: inline-block; overflow: hidden; padding-bottom: 0.06em; }
+  .hero__inner { display: inline-block; will-change: transform; }
+  .hero__under {
+    display: block;
+    height: 3px;
+    width: min(280px, 60%);
+    background: var(--accent);
+    margin-top: var(--s-4);
+    transform-origin: left center;
+  }
+  .hero__tagline {
+    font-size: var(--t-lead);
+    color: var(--ink-2);
+    line-height: 1.4;
+    margin-top: var(--s-6);
+  }
+  .hero__now {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    margin-top: var(--s-6);
+    font-size: var(--t-mono);
+    letter-spacing: 0.04em;
+    color: var(--ink-mute);
+  }
+  .hero__now .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 60%, transparent);
+    animation: pulse 2.4s var(--ease) infinite;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent); }
+    70% { box-shadow: 0 0 0 9px transparent; }
+    100% { box-shadow: 0 0 0 0 transparent; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero__now .dot { animation: none; }
+  }
+
+  /* ---------- shared section ---------- */
+  .section { padding-block: var(--section-y); }
+  .lead {
+    font-size: var(--t-lead);
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+
+  /* ---------- FOCUS / THE LENS ---------- */
+  .focus__lead {
+    font-size: var(--t-h2);
+    font-style: italic;
+    line-height: 1.22;
+    max-width: 26ch;
+    color: var(--ink);
+    margin-bottom: var(--s-8);
+  }
+  .focus { list-style: none; border-top: 1px solid var(--rule); }
+  .focus__row {
+    display: grid;
+    grid-template-columns: clamp(2.8rem, 7vw, 5rem) 1fr;
+    column-gap: var(--s-5);
+    align-items: baseline;
+    padding-block: clamp(20px, 3.4vw, 42px);
+    border-bottom: 1px solid var(--rule);
+    transition: padding-left var(--dur) var(--ease);
+  }
+  .focus__idx {
+    font-size: clamp(0.9rem, 1.6vw, 1.2rem);
+    color: var(--rule-2);
+    transition: color var(--dur) var(--ease);
+  }
+  .focus__label {
+    font-size: clamp(2.3rem, 6.5vw, 4.4rem);
+    line-height: 0.92;
+    letter-spacing: -0.01em;
+    transition: color var(--dur) var(--ease), transform var(--dur) var(--ease);
+  }
+  .focus__note {
+    grid-column: 2;
+    margin-top: var(--s-3);
+    max-width: 46ch;
+    color: var(--ink-mute);
+  }
+  .focus__row:hover { padding-left: var(--s-3); }
+  .focus__row:hover .focus__label { color: var(--accent); }
+  .focus__row:hover .focus__idx { color: var(--accent); }
+  @media (prefers-reduced-motion: reduce) {
+    .focus__row:hover { padding-left: 0; }
+  }
+
+  /* ---------- JOURNEY ---------- */
+  .journey { list-style: none; }
+  .jrow {
+    display: grid;
+    grid-template-columns: 9rem 1fr auto;
+    gap: var(--s-5);
+    align-items: start;
+    padding: var(--s-5) 0;
+    border-top: 1px solid var(--rule);
+    position: relative;
+  }
+  .jrow:last-child { border-bottom: 1px solid var(--rule); }
+  .jrow__when { color: var(--ink-mute); font-size: var(--t-mono); padding-top: 0.35em; }
+  .jrow__title { font-size: var(--t-h3); display: block; margin-bottom: var(--s-2); }
+  .jrow__detail { color: var(--ink-mute); font-size: var(--t-body); line-height: 1.5; }
+  .jrow__status {
+    font-size: var(--t-micro);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid var(--rule-2);
+    border-radius: 999px;
+    color: var(--ink-mute);
+    white-space: nowrap;
+    align-self: start;
+    margin-top: 0.25em;
+  }
+  .jrow__status--current {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+  .jrow--current .jrow__title { color: var(--ink); }
+  @media (max-width: 640px) {
+    .jrow { grid-template-columns: 1fr auto; }
+    .jrow__when { grid-column: 1 / -1; padding-top: 0; }
+  }
+
+  /* ---------- CONTACT ---------- */
+  .contact { display: flex; flex-direction: column; gap: var(--s-6); }
+  .contact__email {
+    font-size: var(--t-h2);
+    color: var(--ink);
+    width: fit-content;
+    border-bottom: 2px solid var(--rule);
+    transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+  }
+  .contact__email:hover { border-color: var(--accent); color: var(--accent); }
+  .contact__socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-5);
+    list-style: none;
+    font-size: var(--t-mono);
+    letter-spacing: 0.04em;
+  }
+  .contact__socials a {
+    color: var(--ink-mute);
+    transition: color var(--dur-fast) var(--ease);
+  }
+  .contact__socials a:hover { color: var(--accent); }
+</style>
+
+<!-- hero entrance animation -->
+<script>
+  import { gsap } from 'gsap';
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const inner = document.querySelector('.hero__inner');
+  const under = document.querySelector('.hero__under');
+  const eyebrow = document.querySelector('.hero__eyebrow');
+  const tagline = document.querySelector('.hero__tagline');
+  const now = document.querySelector('.hero__now');
+
+  if (!reduce && inner) {
+    gsap.set([eyebrow, tagline, now], { opacity: 0, y: 16 });
+    gsap.set(inner, { yPercent: 115 });
+    gsap.set(under, { scaleX: 0 });
+
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    tl.to(eyebrow, { opacity: 1, y: 0, duration: 0.5 }, 0.05)
+      .to(inner, { yPercent: 0, duration: 1.05, ease: 'expo.out' }, 0.12)
+      .to(under, { scaleX: 1, duration: 0.7, ease: 'power4.inOut' }, 0.55)
+      .to(tagline, { opacity: 1, y: 0, duration: 0.6 }, 0.6)
+      .to(now, { opacity: 1, y: 0, duration: 0.6 }, 0.75);
+  }
+</script>

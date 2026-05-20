@@ -1,0 +1,27 @@
+---
+import { profile } from '../content/profile';
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <hr class="rule" />
+  <div class="container footer__inner font-mono">
+    <span>{profile.name} · {profile.location}</span>
+    <span>© {year}</span>
+  </div>
+</footer>
+
+<style>
+  .footer { margin-top: var(--s-9); }
+  .footer__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-4);
+    padding-block: var(--s-6);
+    font-size: var(--t-micro);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+</style>

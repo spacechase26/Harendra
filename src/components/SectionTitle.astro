@@ -1,0 +1,33 @@
+---
+interface Props {
+  num: string;     // ledger row number, e.g. "01"
+  label: string;   // section label
+}
+const { num, label } = Astro.props;
+---
+
+<div class="stitle" data-reveal>
+  <span class="stitle__num font-mono">{num}</span>
+  <span class="stitle__label eyebrow">{label}</span>
+  <span class="stitle__line"></span>
+</div>
+
+<style>
+  .stitle {
+    display: flex;
+    align-items: center;
+    gap: var(--s-4);
+    margin-bottom: var(--s-6);
+  }
+  .stitle__num {
+    font-size: var(--t-mono);
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .stitle__label { white-space: nowrap; }
+  .stitle__line {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+</style>
