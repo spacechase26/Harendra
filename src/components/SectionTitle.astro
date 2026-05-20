@@ -2,7 +2,7 @@
 interface Props {
   num: string;                                  // ledger row number, e.g. "01"
   label: string;                                // section label
-  tone?: 'red' | 'gold' | 'green' | 'dark';     // accent colour for this section
+  tone?: 'red' | 'blue' | 'green' | 'dark';     // accent colour for this section
 }
 const { num, label, tone = 'red' } = Astro.props;
 ---
@@ -23,9 +23,9 @@ const { num, label, tone = 'red' } = Astro.props;
     margin-bottom: var(--s-7);
   }
   .stitle--red   { --tone: var(--accent); }
-  .stitle--gold  { --tone: var(--gold); }
+  .stitle--blue  { --tone: var(--blue); }
   .stitle--green { --tone: var(--green); }
-  .stitle--dark  { --tone: var(--gold); }
+  .stitle--dark  { --tone: var(--blue-bright); }
 
   .stitle__bar {
     width: 22px;

@@ -13,7 +13,13 @@ html {
 
 body {
   position: relative;            /* containing block for the spine */
-  background: var(--paper);
+  /* ruled ledger paper: faint blue horizontal rules on warm stock */
+  background-color: var(--paper);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 34px,
+    var(--rule-line) 34px 35px
+  );
   color: var(--ink);
   font-family: var(--font-body);
   font-size: var(--t-body);

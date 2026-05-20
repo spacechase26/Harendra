@@ -12,7 +12,7 @@ const statusLabel: Record<string, string> = {
 
 <Base>
   <!-- ============ HERO ============ -->
-  <header id="top" class="hero" data-spine-node>
+  <header id="top" class="hero">
     <div class="container">
       <p class="hero__eyebrow eyebrow">
         <span class="hero__eyedot" aria-hidden="true"></span>{profile.location} · CA Aspirant
@@ -32,7 +32,7 @@ const statusLabel: Record<string, string> = {
   </header>
 
   <!-- ============ ABOUT ============ -->
-  <section id="about" class="section" data-spine-node>
+  <section id="about" class="section">
     <div class="container">
       <SectionTitle num="01" label="About" tone="red" />
       <p class="lead measure" data-reveal>{profile.intro}</p>
@@ -40,9 +40,9 @@ const statusLabel: Record<string, string> = {
   </section>
 
   <!-- ============ PROJECTS ============ -->
-  <section id="projects" class="section" data-spine-node>
+  <section id="projects" class="section">
     <div class="container">
-      <SectionTitle num="02" label="Projects" tone="gold" />
+      <SectionTitle num="02" label="Projects" tone="blue" />
       {profile.projects.length === 0 ? (
         <p class="proj__empty font-display measure" data-reveal>{profile.projectsNote}</p>
       ) : (
@@ -72,7 +72,7 @@ const statusLabel: Record<string, string> = {
   </section>
 
   <!-- ============ JOURNEY ============ -->
-  <section id="journey" class="section" data-spine-node>
+  <section id="journey" class="section">
     <div class="container">
       <SectionTitle num="03" label="The Journey" tone="green" />
       <ol class="journey">
@@ -91,7 +91,7 @@ const statusLabel: Record<string, string> = {
   </section>
 
   <!-- ============ CONTACT (dark band) ============ -->
-  <section id="contact" class="section section--dark" data-spine-node>
+  <section id="contact" class="section section--dark">
     <div class="container">
       <SectionTitle num="04" label="Get in touch" tone="dark" />
       <div class="contact" data-reveal>
@@ -117,30 +117,7 @@ const statusLabel: Record<string, string> = {
     position: relative;
     padding-top: clamp(64px, 14vh, 160px);
     padding-bottom: var(--section-y);
-    overflow: hidden;
   }
-  /* faint ruled-paper backdrop, fading downward (the "ledger" tell) */
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background-image: repeating-linear-gradient(to bottom, transparent 0 43px, var(--rule) 43px 44px);
-    opacity: 0.4;
-    -webkit-mask-image: linear-gradient(to bottom, #000 8%, transparent 78%);
-            mask-image: linear-gradient(to bottom, #000 8%, transparent 78%);
-  }
-  /* warm glow behind the name */
-  .hero::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background: radial-gradient(58% 52% at 22% 34%, color-mix(in srgb, var(--gold) 26%, transparent), transparent 70%);
-  }
-  .hero .container { position: relative; z-index: 1; }
   .hero__eyebrow { margin-bottom: var(--s-5); display: inline-flex; align-items: center; gap: var(--s-2); }
   .hero__eyedot { width: 9px; height: 9px; background: var(--accent); border-radius: 1px; }
   .hero__name {
@@ -154,7 +131,7 @@ const statusLabel: Record<string, string> = {
     display: block;
     height: 4px;
     width: min(300px, 62%);
-    background: linear-gradient(90deg, var(--accent), var(--accent-warm) 55%, var(--gold));
+    background: var(--accent);
     border-radius: 2px;
     margin-top: var(--s-4);
     transform-origin: left center;
@@ -217,7 +194,7 @@ const statusLabel: Record<string, string> = {
   }
   .proj__card:hover {
     transform: translate(-4px, -4px);
-    box-shadow: 8px 8px 0 var(--gold);
+    box-shadow: 8px 8px 0 var(--blue);
     border-color: var(--ink);
   }
   @media (prefers-reduced-motion: reduce) {
@@ -230,21 +207,21 @@ const statusLabel: Record<string, string> = {
     margin-bottom: var(--s-4);
     font-size: var(--t-mono);
   }
-  .proj__idx { color: var(--gold); }
+  .proj__idx { color: var(--blue); }
   .proj__meta { display: inline-flex; align-items: center; gap: var(--s-3); }
   .proj__year { color: var(--ink-mute); font-size: var(--t-micro); }
   .proj__tag {
     font-size: var(--t-micro);
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--gold);
-    border: 1px solid color-mix(in srgb, var(--gold) 55%, transparent);
+    color: var(--blue);
+    border: 1px solid color-mix(in srgb, var(--blue) 55%, transparent);
     border-radius: 999px;
     padding: 2px 9px;
   }
   .proj__title { font-size: var(--t-h3); margin-bottom: var(--s-3); }
   .proj__title a { transition: color var(--dur-fast) var(--ease); }
-  .proj__title a:hover { color: var(--gold); }
+  .proj__title a:hover { color: var(--blue); }
   .proj__blurb { color: var(--ink-2); }
 
   /* ---------- JOURNEY ---------- */
@@ -288,8 +265,8 @@ const statusLabel: Record<string, string> = {
     background: var(--accent-soft);
   }
   .jrow__status--next {
-    color: var(--gold);
-    border-color: color-mix(in srgb, var(--gold) 45%, transparent);
+    color: var(--blue);
+    border-color: color-mix(in srgb, var(--blue) 45%, transparent);
   }
   @media (max-width: 640px) {
     .jrow { grid-template-columns: 1fr auto; }
@@ -317,7 +294,7 @@ const statusLabel: Record<string, string> = {
     border-bottom: 2px solid rgba(237, 231, 217, 0.25);
     transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
   }
-  .contact__email:hover { border-color: var(--gold); color: var(--gold); }
+  .contact__email:hover { border-color: var(--blue-bright); color: var(--blue-bright); }
   .contact__socials {
     display: flex;
     flex-wrap: wrap;
@@ -328,7 +305,7 @@ const statusLabel: Record<string, string> = {
     margin-top: var(--s-3);
   }
   .contact__socials a { color: var(--on-dark-mute); transition: color var(--dur-fast) var(--ease); }
-  .contact__socials a:hover { color: var(--gold); }
+  .contact__socials a:hover { color: var(--blue-bright); }
 </style>
 
 <!-- hero entrance animation -->
