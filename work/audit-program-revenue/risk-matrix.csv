@@ -1,0 +1,14 @@
+Revenue & Receivables — Audit Risk Matrix (template). Hypothetical SME; based on the Standards on Auditing. L/I = Likelihood/Impact (H/M/L).,,,,,,,
+,,,,,,,
+#,Assertion,Risk,Likelihood,Impact,Control to test,Substantive procedure,Relevant SA,W/P ref
+1,Occurrence,Fictitious sales recorded to inflate revenue (PRESUMED FRAUD RISK),M,H,Dispatch precedes invoice; segregation between recording and dispatch,Vouch sample invoices to delivery challan + e-way bill + customer acknowledgement; analytical review of sales vs dispatch volume,SA 240 / SA 330,R-2
+2,Cut-off,Sales booked in the wrong period around year-end,M,H,Invoicing driven by actual dispatch date,Examine last/first ~15 dispatches and invoices around 31 March; trace to dispatch/GRN dates,SA 330,R-3
+3,Completeness,Goods dispatched but not invoiced / sales unrecorded,M,M,Pre-numbered sequential dispatch documents reconciled to invoices,Trace dispatch challans to sales invoices; test numerical sequence for gaps,SA 330,R-4
+4,Accuracy,Pricing / quantity / GST computation errors,M,M,Approved price master; system-generated invoices,Recompute a sample of invoices; agree prices to approved list and GST rates,SA 500,R-5
+5,Occurrence / Valuation,Channel stuffing or related-party sales reversed after year-end,L,H,Related-party transaction approval; sales-return monitoring,Review related-party sales and post-year-end sales returns; confirm terms,SA 240 / SA 550,R-6
+6,Existence,Recorded trade receivables do not exist,M,H,(direct test),External confirmations (positive) for a sample; for non-replies use subsequent receipts and vouch to invoice + dispatch,SA 505,R-7
+7,Valuation,Overstated debtors / inadequate bad-debt provision,M,H,Ageing review; credit policy enforced,Ageing analysis; review old and disputed balances; assess provision adequacy; check subsequent collections,SA 540,R-8
+8,Classification,Non-trade or other income shown as revenue from operations,L,M,Chart-of-accounts discipline,Scan revenue ledger for unusual items; reclassify as needed,SA 500,R-5
+9,Rights & obligations,Goods sold on consignment / bill-and-hold booked as sales,L,H,Contract review,Inspect terms for consignment or bill-and-hold; confirm risk-and-reward transfer (Ind AS 115 / AS 9),SA 500,R-2
+,,,,,,,
+RULE OF THUMB,For revenue start from skepticism: real sales have a real customer, a real dispatch, and a real subsequent collection. Test all three.,,,,,,
