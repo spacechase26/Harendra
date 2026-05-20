@@ -7,21 +7,27 @@ const year = new Date().getFullYear();
   <hr class="rule" />
   <div class="container footer__inner font-mono">
     <span>{profile.name} · {profile.location}</span>
+    <a href="#top" class="footer__top">Back to top <span aria-hidden="true">↑</span></a>
     <span>© {year}</span>
   </div>
 </footer>
 
 <style>
-  .footer { margin-top: var(--s-9); }
   .footer__inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--s-4);
+    flex-wrap: wrap;
+    gap: var(--s-3) var(--s-5);
     padding-block: var(--s-6);
     font-size: var(--t-micro);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--ink-mute);
   }
+  .footer__top {
+    color: var(--ink-mute);
+    transition: color var(--dur-fast) var(--ease);
+  }
+  .footer__top:hover { color: var(--accent); }
 </style>

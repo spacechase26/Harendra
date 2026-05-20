@@ -1,0 +1,152 @@
+---
+/* ============================================================
+   The spine — the site's signature.
+   A single accent line down the left margin (the ruled margin of
+   ledger / answer paper) that is *drawn* as you scroll: a
+   gradient (oxblood -> terracotta -> gold) reveals from the top
+   down to your reading position, and a node ignites at every
+   section as you reach it. One continuous line threading the
+   chapters of the page together.
+
+   Self-contained & removable: delete this file + the one <Thread/>
+   include in Base.astro and nothing else is affected.
+   ============================================================ */
+---
+
+<div class="spine" aria-hidden="true">
+  <span class="spine__track"></span>
+  <span class="spine__fill" data-spine-fill></span>
+  <span class="spine__nodes" data-spine-nodes></span>
+</div>
+
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fill = document.querySelector<HTMLElement>('[data-spine-fill]');
+  const nodesWrap = document.querySelector<HTMLElement>('[data-spine-nodes]');
+
+  if (fill && nodesWrap) {
+    // build a node for every section marked with data-spine-node
+    const targets = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-spine-node]')
+    );
+    const nodes = targets.map((el) => {
+      const dot = document.createElement('span');
+      dot.className = 'spine__node';
+      nodesWrap.appendChild(dot);
+      return { el, dot, y: 0 };
+    });
+
+    const measure = () => {
+      const top = window.scrollY;
+      nodes.forEach((n) => {
+        n.y = n.el.getBoundingClientRect().top + top;
+        n.dot.style.top = `${n.y}px`;
+      });
+    };
+
+    const paint = () => {
+      const doc = document.documentElement.scrollHeight;
+      // the "pen" sits a little above mid-screen
+      const pen = window.scrollY + window.innerHeight * 0.46;
+      const frac = Math.min(1, Math.max(0, pen / doc));
+      fill.style.clipPath = `inset(0 0 ${(1 - frac) * 100}% 0)`;
+      nodes.forEach((n) => n.dot.classList.toggle('is-on', pen >= n.y - 4));
+    };
+
+    if (reduce) {
+      measure();
+      fill.style.clipPath = 'inset(0 0 0% 0)';
+      nodes.forEach((n) => n.dot.classList.add('is-on'));
+    } else {
+      let ticking = false;
+      const onScroll = () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(() => {
+            paint();
+            ticking = false;
+          });
+        }
+      };
+      // images/fonts can shift layout; remeasure after load too
+      measure();
+      paint();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', () => {
+        measure();
+        paint();
+      });
+      window.addEventListener('load', () => {
+        measure();
+        paint();
+      });
+    }
+  }
+</script>
+
+<style>
+  .spine {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: clamp(9px, 4vw, 40px);
+    width: 3px;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .spine__track,
+  .spine__fill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 3px;
+    border-radius: 2px;
+  }
+  .spine__track {
+    background: var(--rule);
+    opacity: 0.7;
+  }
+  .spine__fill {
+    background: linear-gradient(
+      to bottom,
+      var(--accent) 0%,
+      var(--accent-warm) 52%,
+      var(--gold) 100%
+    );
+    /* start hidden; JS reveals from the top down */
+    clip-path: inset(0 0 100% 0);
+  }
+  .spine__node {
+    position: absolute;
+    left: 50%;
+    width: 11px;
+    height: 11px;
+    margin-left: -5.5px;
+    margin-top: -5.5px;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 2px solid var(--rule-2);
+    transition: border-color 0.35s var(--ease), background 0.35s var(--ease),
+      box-shadow 0.45s var(--ease), transform 0.35s var(--ease);
+  }
+  .spine__node.is-on {
+    border-color: var(--accent);
+    background: var(--accent);
+    transform: scale(1.15);
+    box-shadow: 0 0 0 4px var(--accent-soft);
+  }
+  @media (max-width: 600px) {
+    .spine {
+      left: 7px;
+      width: 2px;
+    }
+    .spine__track,
+    .spine__fill {
+      width: 2px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .spine__node { transition: none; }
+  }
+</style>

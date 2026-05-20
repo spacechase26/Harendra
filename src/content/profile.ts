@@ -4,9 +4,12 @@
    touching. (A future "now I'm a CA" overhaul = edit this file.)
    ============================================================ */
 
-export interface FocusItem {
-  label: string;
-  note: string;
+export interface Project {
+  title: string;
+  blurb: string;
+  year?: string;
+  href?: string;
+  draft?: boolean;   // true = shows a "sample" tag; remove it to make it real
 }
 
 export interface JourneyEntry {
@@ -38,18 +41,33 @@ export const profile = {
   /* the single live "what I'm doing now" line */
   now: 'Preparing for CA Inter — Group 2 · Jan 2027',
 
-  /* a thesis that ties the focus areas together — gives them meaning */
-  focusLead:
-    "Five subjects, one instinct: to find the story the numbers are telling — and to make sure it holds up.",
-
-  /* things I'm genuinely into */
-  focus: [
-    { label: 'Costing',    note: 'Where the money actually goes — and what that reveals about how a business works.' },
-    { label: 'Audit',      note: 'Testing whether the numbers are telling the truth, and proving it.' },
-    { label: 'Markets',    note: 'How value gets discovered, priced, and constantly second-guessed.' },
-    { label: 'Valuation',  note: 'Putting a number on what something is worth — one you can defend.' },
-    { label: 'Accounting', note: 'The grammar underneath all of it.' },
-  ] as FocusItem[],
+  /* Projects.
+     The three below are SAMPLE cards (draft: true → shows a "sample" tag)
+     so you can see the layout. When you do real work, edit one in place and
+     delete `draft: true`, or remove the samples entirely. If this array is
+     empty, the section shows `projectsNote` instead. */
+  projectsNote:
+    "The ledger's open — first entries posting soon. Real work I'll put my name behind, not filler.",
+  projects: [
+    {
+      title: 'Cost sheet teardown',
+      blurb: 'Break a small manufacturer down to unit economics — and find where the margin actually hides.',
+      year: '2026',
+      draft: true,
+    },
+    {
+      title: 'Valuation note',
+      blurb: 'A first-principles equity valuation, written up the way a real research desk would.',
+      year: '2027',
+      draft: true,
+    },
+    {
+      title: 'Audit walkthrough',
+      blurb: 'Map the controls and design the tests for a mock statutory engagement, start to finish.',
+      year: '2027',
+      draft: true,
+    },
+  ] as Project[],
 
   /* forward-only path: B.Com -> CA Inter -> Final */
   journey: [

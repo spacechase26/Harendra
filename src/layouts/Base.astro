@@ -4,6 +4,7 @@ import '../styles/tokens.css';
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import Thread from '../components/Thread.astro';
 
 interface Props {
   title?: string;
@@ -46,6 +47,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   </head>
   <body>
     <div class="grain" aria-hidden="true"></div>
+    <Thread />
     <Nav />
     <main id="main">
       <slot />

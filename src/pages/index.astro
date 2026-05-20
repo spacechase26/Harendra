@@ -12,9 +12,11 @@ const statusLabel: Record<string, string> = {
 
 <Base>
   <!-- ============ HERO ============ -->
-  <header class="hero">
+  <header id="top" class="hero" data-spine-node>
     <div class="container">
-      <p class="hero__eyebrow eyebrow">{profile.location} · CA Aspirant</p>
+      <p class="hero__eyebrow eyebrow">
+        <span class="hero__eyedot" aria-hidden="true"></span>{profile.location} · CA Aspirant
+      </p>
 
       <h1 class="hero__name font-display">
         <span class="hero__mask"><span class="hero__inner">{profile.name}</span></span>
@@ -30,34 +32,49 @@ const statusLabel: Record<string, string> = {
   </header>
 
   <!-- ============ ABOUT ============ -->
-  <section id="about" class="section">
+  <section id="about" class="section" data-spine-node>
     <div class="container">
-      <SectionTitle num="01" label="About" />
+      <SectionTitle num="01" label="About" tone="red" />
       <p class="lead measure" data-reveal>{profile.intro}</p>
     </div>
   </section>
 
-  <!-- ============ FOCUS / THE LENS ============ -->
-  <section id="focus" class="section">
+  <!-- ============ PROJECTS ============ -->
+  <section id="projects" class="section" data-spine-node>
     <div class="container">
-      <SectionTitle num="02" label="The Lens" />
-      <p class="focus__lead font-display" data-reveal>{profile.focusLead}</p>
-      <ul class="focus">
-        {profile.focus.map((f, i) => (
-          <li class="focus__row" data-reveal>
-            <span class="focus__idx font-mono">{String(i + 1).padStart(2, '0')}</span>
-            <span class="focus__label font-display">{f.label}</span>
-            <span class="focus__note">{f.note}</span>
-          </li>
-        ))}
-      </ul>
+      <SectionTitle num="02" label="Projects" tone="gold" />
+      {profile.projects.length === 0 ? (
+        <p class="proj__empty font-display measure" data-reveal>{profile.projectsNote}</p>
+      ) : (
+        <ul class="proj">
+          {profile.projects.map((p, i) => (
+            <li class="proj__card" data-reveal>
+              <div class="proj__top font-mono">
+                <span class="proj__idx">{String(i + 1).padStart(2, '0')}</span>
+                <span class="proj__meta">
+                  {p.draft && <span class="proj__tag">sample</span>}
+                  {p.year && <span class="proj__year">{p.year}</span>}
+                </span>
+              </div>
+              <h3 class="proj__title font-display">
+                {p.href ? (
+                  <a href={p.href} target="_blank" rel="noopener noreferrer">{p.title} <span aria-hidden="true">↗</span></a>
+                ) : (
+                  p.title
+                )}
+              </h3>
+              <p class="proj__blurb">{p.blurb}</p>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   </section>
 
   <!-- ============ JOURNEY ============ -->
-  <section id="journey" class="section">
+  <section id="journey" class="section" data-spine-node>
     <div class="container">
-      <SectionTitle num="03" label="The Journey" />
+      <SectionTitle num="03" label="The Journey" tone="green" />
       <ol class="journey">
         {profile.journey.map((j) => (
           <li class={`jrow jrow--${j.status}`} data-reveal>
@@ -73,19 +90,22 @@ const statusLabel: Record<string, string> = {
     </div>
   </section>
 
-  <!-- ============ CONTACT ============ -->
-  <section id="contact" class="section">
+  <!-- ============ CONTACT (dark band) ============ -->
+  <section id="contact" class="section section--dark" data-spine-node>
     <div class="container">
-      <SectionTitle num="04" label="Get in touch" />
+      <SectionTitle num="04" label="Get in touch" tone="dark" />
       <div class="contact" data-reveal>
+        <p class="contact__cue font-display">Let's talk.</p>
         <a class="contact__email font-display" href={`mailto:${profile.email}`}>{profile.email}</a>
-        <ul class="contact__socials font-mono">
-          {profile.socials.map((s) => (
-            <li>
-              <a href={s.href} target="_blank" rel="noopener noreferrer">{s.label} <span aria-hidden="true">→</span></a>
-            </li>
-          ))}
-        </ul>
+        {profile.socials.length > 0 && (
+          <ul class="contact__socials font-mono">
+            {profile.socials.map((s) => (
+              <li>
+                <a href={s.href} target="_blank" rel="noopener noreferrer">{s.label} <span aria-hidden="true">→</span></a>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   </section>
@@ -106,17 +126,23 @@ const statusLabel: Record<string, string> = {
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    background-image: repeating-linear-gradient(
-      to bottom,
-      transparent 0 43px,
-      var(--rule) 43px 44px
-    );
-    opacity: 0.45;
+    background-image: repeating-linear-gradient(to bottom, transparent 0 43px, var(--rule) 43px 44px);
+    opacity: 0.4;
     -webkit-mask-image: linear-gradient(to bottom, #000 8%, transparent 78%);
             mask-image: linear-gradient(to bottom, #000 8%, transparent 78%);
   }
+  /* warm glow behind the name */
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(58% 52% at 22% 34%, color-mix(in srgb, var(--gold) 26%, transparent), transparent 70%);
+  }
   .hero .container { position: relative; z-index: 1; }
-  .hero__eyebrow { margin-bottom: var(--s-5); }
+  .hero__eyebrow { margin-bottom: var(--s-5); display: inline-flex; align-items: center; gap: var(--s-2); }
+  .hero__eyedot { width: 9px; height: 9px; background: var(--accent); border-radius: 1px; }
   .hero__name {
     font-size: var(--t-name);
     line-height: 0.92;
@@ -126,9 +152,10 @@ const statusLabel: Record<string, string> = {
   .hero__inner { display: inline-block; will-change: transform; }
   .hero__under {
     display: block;
-    height: 3px;
-    width: min(280px, 60%);
-    background: var(--accent);
+    height: 4px;
+    width: min(300px, 62%);
+    background: linear-gradient(90deg, var(--accent), var(--accent-warm) 55%, var(--gold));
+    border-radius: 2px;
     margin-top: var(--s-4);
     transform-origin: left center;
   }
@@ -164,54 +191,61 @@ const statusLabel: Record<string, string> = {
 
   /* ---------- shared section ---------- */
   .section { padding-block: var(--section-y); }
-  .lead {
-    font-size: var(--t-lead);
-    line-height: 1.5;
-    color: var(--ink-2);
-  }
+  .lead { font-size: var(--t-lead); line-height: 1.5; color: var(--ink-2); }
 
-  /* ---------- FOCUS / THE LENS ---------- */
-  .focus__lead {
+  /* ---------- PROJECTS ---------- */
+  .proj__empty {
     font-size: var(--t-h2);
     font-style: italic;
-    line-height: 1.22;
-    max-width: 26ch;
+    line-height: 1.25;
     color: var(--ink);
-    margin-bottom: var(--s-8);
   }
-  .focus { list-style: none; border-top: 1px solid var(--rule); }
-  .focus__row {
+  .proj {
+    list-style: none;
     display: grid;
-    grid-template-columns: clamp(2.8rem, 7vw, 5rem) 1fr;
-    column-gap: var(--s-5);
-    align-items: baseline;
-    padding-block: clamp(20px, 3.4vw, 42px);
-    border-bottom: 1px solid var(--rule);
-    transition: padding-left var(--dur) var(--ease);
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s-5);
   }
-  .focus__idx {
-    font-size: clamp(0.9rem, 1.6vw, 1.2rem);
-    color: var(--rule-2);
-    transition: color var(--dur) var(--ease);
+  @media (max-width: 720px) { .proj { grid-template-columns: 1fr; } }
+  .proj__card {
+    border: 1px solid var(--rule-2);
+    background: var(--paper);
+    padding: var(--s-6);
+    border-radius: 3px;
+    transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease),
+      border-color var(--dur) var(--ease);
   }
-  .focus__label {
-    font-size: clamp(2.3rem, 6.5vw, 4.4rem);
-    line-height: 0.92;
-    letter-spacing: -0.01em;
-    transition: color var(--dur) var(--ease), transform var(--dur) var(--ease);
+  .proj__card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 8px 8px 0 var(--gold);
+    border-color: var(--ink);
   }
-  .focus__note {
-    grid-column: 2;
-    margin-top: var(--s-3);
-    max-width: 46ch;
-    color: var(--ink-mute);
-  }
-  .focus__row:hover { padding-left: var(--s-3); }
-  .focus__row:hover .focus__label { color: var(--accent); }
-  .focus__row:hover .focus__idx { color: var(--accent); }
   @media (prefers-reduced-motion: reduce) {
-    .focus__row:hover { padding-left: 0; }
+    .proj__card:hover { transform: none; }
   }
+  .proj__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--s-4);
+    font-size: var(--t-mono);
+  }
+  .proj__idx { color: var(--gold); }
+  .proj__meta { display: inline-flex; align-items: center; gap: var(--s-3); }
+  .proj__year { color: var(--ink-mute); font-size: var(--t-micro); }
+  .proj__tag {
+    font-size: var(--t-micro);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid color-mix(in srgb, var(--gold) 55%, transparent);
+    border-radius: 999px;
+    padding: 2px 9px;
+  }
+  .proj__title { font-size: var(--t-h3); margin-bottom: var(--s-3); }
+  .proj__title a { transition: color var(--dur-fast) var(--ease); }
+  .proj__title a:hover { color: var(--gold); }
+  .proj__blurb { color: var(--ink-2); }
 
   /* ---------- JOURNEY ---------- */
   .journey { list-style: none; }
@@ -225,6 +259,9 @@ const statusLabel: Record<string, string> = {
     position: relative;
   }
   .jrow:last-child { border-bottom: 1px solid var(--rule); }
+  .jrow--current {
+    background: linear-gradient(90deg, var(--accent-soft), transparent 55%);
+  }
   .jrow__when { color: var(--ink-mute); font-size: var(--t-mono); padding-top: 0.35em; }
   .jrow__title { font-size: var(--t-h3); display: block; margin-bottom: var(--s-2); }
   .jrow__detail { color: var(--ink-mute); font-size: var(--t-body); line-height: 1.5; }
@@ -240,27 +277,47 @@ const statusLabel: Record<string, string> = {
     align-self: start;
     margin-top: 0.25em;
   }
+  .jrow__status--done {
+    color: var(--green);
+    border-color: color-mix(in srgb, var(--green) 45%, transparent);
+    background: var(--green-soft);
+  }
   .jrow__status--current {
     color: var(--accent);
     border-color: var(--accent);
     background: var(--accent-soft);
   }
-  .jrow--current .jrow__title { color: var(--ink); }
+  .jrow__status--next {
+    color: var(--gold);
+    border-color: color-mix(in srgb, var(--gold) 45%, transparent);
+  }
   @media (max-width: 640px) {
     .jrow { grid-template-columns: 1fr auto; }
     .jrow__when { grid-column: 1 / -1; padding-top: 0; }
   }
 
-  /* ---------- CONTACT ---------- */
-  .contact { display: flex; flex-direction: column; gap: var(--s-6); }
+  /* ---------- CONTACT (dark band) ---------- */
+  .section--dark {
+    background: var(--ink-deep);
+    color: var(--on-dark);
+    padding-block: clamp(72px, 12vh, 140px);
+  }
+  .section--dark :global(.stitle__line) { background: rgba(237, 231, 217, 0.16); }
+  .section--dark :global(.stitle__label) { color: var(--on-dark-mute); }
+  .contact { display: flex; flex-direction: column; gap: var(--s-5); align-items: flex-start; }
+  .contact__cue {
+    font-size: clamp(2.6rem, 7vw, 4.6rem);
+    line-height: 1;
+    margin-bottom: var(--s-3);
+  }
   .contact__email {
     font-size: var(--t-h2);
-    color: var(--ink);
+    color: var(--on-dark);
     width: fit-content;
-    border-bottom: 2px solid var(--rule);
+    border-bottom: 2px solid rgba(237, 231, 217, 0.25);
     transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
   }
-  .contact__email:hover { border-color: var(--accent); color: var(--accent); }
+  .contact__email:hover { border-color: var(--gold); color: var(--gold); }
   .contact__socials {
     display: flex;
     flex-wrap: wrap;
@@ -268,12 +325,10 @@ const statusLabel: Record<string, string> = {
     list-style: none;
     font-size: var(--t-mono);
     letter-spacing: 0.04em;
+    margin-top: var(--s-3);
   }
-  .contact__socials a {
-    color: var(--ink-mute);
-    transition: color var(--dur-fast) var(--ease);
-  }
-  .contact__socials a:hover { color: var(--accent); }
+  .contact__socials a { color: var(--on-dark-mute); transition: color var(--dur-fast) var(--ease); }
+  .contact__socials a:hover { color: var(--gold); }
 </style>
 
 <!-- hero entrance animation -->

@@ -1,12 +1,14 @@
 ---
 interface Props {
-  num: string;     // ledger row number, e.g. "01"
-  label: string;   // section label
+  num: string;                                  // ledger row number, e.g. "01"
+  label: string;                                // section label
+  tone?: 'red' | 'gold' | 'green' | 'dark';     // accent colour for this section
 }
-const { num, label } = Astro.props;
+const { num, label, tone = 'red' } = Astro.props;
 ---
 
-<div class="stitle" data-reveal>
+<div class={`stitle stitle--${tone}`} data-reveal>
+  <span class="stitle__bar" aria-hidden="true"></span>
   <span class="stitle__num font-mono">{num}</span>
   <span class="stitle__label eyebrow">{label}</span>
   <span class="stitle__line"></span>
@@ -14,14 +16,27 @@ const { num, label } = Astro.props;
 
 <style>
   .stitle {
+    --tone: var(--accent);
     display: flex;
     align-items: center;
-    gap: var(--s-4);
-    margin-bottom: var(--s-6);
+    gap: var(--s-3);
+    margin-bottom: var(--s-7);
+  }
+  .stitle--red   { --tone: var(--accent); }
+  .stitle--gold  { --tone: var(--gold); }
+  .stitle--green { --tone: var(--green); }
+  .stitle--dark  { --tone: var(--gold); }
+
+  .stitle__bar {
+    width: 22px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--tone);
+    flex: none;
   }
   .stitle__num {
     font-size: var(--t-mono);
-    color: var(--accent);
+    color: var(--tone);
     font-weight: 700;
   }
   .stitle__label { white-space: nowrap; }

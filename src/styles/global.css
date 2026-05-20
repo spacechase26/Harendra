@@ -12,6 +12,7 @@ html {
 }
 
 body {
+  position: relative;            /* containing block for the spine */
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font-body);

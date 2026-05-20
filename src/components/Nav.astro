@@ -1,9 +1,9 @@
 ---
 import { profile } from '../content/profile';
 const links = [
-  { href: '#about',   label: 'About' },
-  { href: '#focus',   label: 'Focus' },
-  { href: '#journey', label: 'Journey' },
+  { href: '#about',    label: 'About' },
+  { href: '#projects', label: 'Projects' },
+  { href: '#journey',  label: 'Journey' },
   { href: '#contact', label: 'Contact' },
 ];
 const base = import.meta.env.BASE_URL;
@@ -61,6 +61,8 @@ const base = import.meta.env.BASE_URL;
   }
   @media (max-width: 540px) {
     .nav__links { gap: var(--s-4); }
-    .nav__links li:nth-child(2) { display: none; } /* drop "Focus" on tiny screens */
+  }
+  @media (max-width: 400px) {
+    .nav__links { gap: var(--s-3); font-size: var(--t-micro); }
   }
 </style>

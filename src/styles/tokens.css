@@ -11,9 +11,17 @@
   --ink-mute:   #6B6557;   /* muted labels / meta                */
   --rule:       #DAD3C4;   /* hairline rules                     */
   --rule-2:     #C8C0AE;   /* stronger rule                      */
-  --accent:     #A6291E;   /* oxblood / ledger red               */
+  --accent:     #A6291E;   /* oxblood / ledger red (primary)     */
   --accent-2:   #8A1F16;   /* pressed accent                     */
+  --accent-warm:#D2683A;   /* terracotta (gradient partner)      */
   --accent-soft:#F3E3DD;   /* faint accent wash                  */
+  --gold:       #BE7C28;   /* marigold (secondary accent)        */
+  --gold-soft:  #F4E9D2;   /* faint gold wash                    */
+  --green:      #2E6A52;   /* deep emerald ("done" / settled)    */
+  --green-soft: #DDE8E0;   /* faint green wash                   */
+  --ink-deep:   #100E0A;   /* near-black for dark sections       */
+  --on-dark:    #EDE7D9;   /* text on dark sections              */
+  --on-dark-mute:#9A9484;  /* muted text on dark                 */
 
   /* ---- type ------------------------------------------------ */
   --font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
