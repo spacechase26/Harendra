@@ -1,0 +1,45 @@
+Pidilite Industries — DCF model (DRAFT; verify figures vs FY26 annual report). All ₹ Crore unless noted.,,,,,
+,,,,,
+ASSUMPTIONS,,,,,
+Base year revenue (FY26),14601,,,,
+WACC,11.5%,,,,
+Terminal growth g,6.5%,,,,
+EBIT margin,22%,,,,
+Tax rate,25%,,,,
+D&A (% sales),2.5%,,,,
+Capex (% sales),3.0%,,,,
+Change in WC (% of incremental revenue),8%,,,,
+Shares outstanding (Cr),101.8,,,,
+Net debt,0,,,,
+,,,,,
+PROJECTION,FY27,FY28,FY29,FY30,FY31
+Revenue growth,12%,11%,11%,10%,10%
+Revenue,16353,18152,20148,22163,24379
+EBIT (22%),3598,3993,4433,4876,5363
+Tax (25% of EBIT),900,998,1108,1219,1341
+NOPAT,2698,2995,3325,3657,4022
+Add: D&A (2.5%),409,454,504,554,609
+Less: Capex (3%),491,545,604,665,731
+Less: Change in working capital (8% of rev increase),140,144,160,161,177
+FCFF,2476,2760,3065,3385,3723
+Discount factor @ 11.5%,0.897,0.804,0.721,0.647,0.580
+PV of FCFF,2221,2220,2211,2190,2160
+,,,,,
+VALUATION SUMMARY,,,,,
+Sum of PV of explicit FCFF (FY27-FY31),11002,,,,
+Terminal value at end FY31 = FCFF31*(1+g)/(WACC-g),79300,,,,
+PV of terminal value,46019,,,,
+Enterprise value,57021,,,,
+Less: net debt,0,,,,
+Equity value,57021,,,,
+Intrinsic value per share (Rs),560,,,,
+Current market price (Rs),1455,,,,
+Upside/(downside) vs intrinsic,-61%,,,,
+,,,,,
+SENSITIVITY — intrinsic value per share (Rs),g=5.5%,g=6.5%,g=7.5%,,
+WACC 10.5%,579,702,907,,
+WACC 11.5%,481,560,678,,
+WACC 12.5%,411,465,542,,
+,,,,,
+REVERSE DCF,,,,,
+Terminal growth implied by current price (at 11.5% WACC),~9.8%,,,,
